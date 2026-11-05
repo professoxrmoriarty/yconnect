@@ -138,16 +138,38 @@ jobs:
       - name: "6. Publish GitHub Release"
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.meta.outputs.tag }}
-          name: "${{ github.event.repository.name }} English Edition (${{ steps.meta.outputs.tag }})"
-          target_commitish: ${{ steps.meta.outputs.ref }}
+          tag_name: ${{ inputs.tag_name || github.ref_name }}
+          name: "yconnect English Edition (${{ inputs.tag_name || github.ref_name }})"
+          target_commitish: ${{ github.sha }}
           overwrite: true
           body: |
-            ### ${{ github.event.repository.name }} (English Edition) — ${{ steps.meta.outputs.tag }}
+            ### yconnect (English Edition) — ${{ inputs.tag_name || github.ref_name }}
+            
             * **100% Translated & Synchronized** with the Yaklang English Ecosystem:
               * `professoxrmoriarty/yakit` (Yakit, IRify, Memfit AI)
               * `professoxrmoriarty/yaklang` (Core Engine)
               * `professoxrmoriarty/ytray` (System Tray Manager)
+            
+            ---
+            
+            ### Download & Installation
+            * **macOS Universal DMG:** macOS 14+, supports Apple Silicon / Intel. Drag into Applications to install.
+            * **Windows x64 Installer:** Windows 10/11, .NET Framework 4.8. 
+            * **Windows x64 Portable ZIP:** Run `YConnect.exe` after extraction.
+            
+            Users of v0.5.0 and above can upgrade via "Check for Updates" within the client. For older versions, please download the new installer. Account data and third-party client configurations will be preserved.
+            
+            ---
+            
+            ### Asset Descriptions
+            | Asset | Description |
+            | :--- | :--- |
+            | `YConnect-*-darwin-universal.dmg` | macOS Universal App (Apple Silicon / Intel) |
+            | `YConnect-*-windows-x64-setup.exe` | Windows 64-bit Installer |
+            | `yconnect-english-bundle.zip` / `yconnect-en.zip` | Bundled ecosystem assets & portable resources |
+            | `SHA256SUMS.txt` | Checksums for all released assets |
+            | `manifest.json` / `appcast-*.xml` | Update manifest files for Sparkle / WinSparkle |
+            
           draft: false
           prerelease: false
           files: release-assets/*
